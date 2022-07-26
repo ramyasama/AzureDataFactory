@@ -8,6 +8,7 @@
 
         # Checkout code
       - uses: actions/checkout@main
+      - name: container
       - run: echo ${{ steps.deploy.outputs.containerName }}
 
         # Log into Azure
