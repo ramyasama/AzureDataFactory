@@ -9,7 +9,7 @@
         # Checkout code
       - uses: actions/checkout@main
       - name: container
-        run: echo ${{ steps.deploy.outputs.containerName }}
+        
 
         # Log into Azure
       - uses: azure/login@v1
@@ -25,5 +25,4 @@
           template: ./azuredeploy.json
           parameters: storageAccountType=Standard_LRS
 
-        # output containerName variable from template
-      - run: echo ${{ steps.deploy.outputs.containerName }}
+      
