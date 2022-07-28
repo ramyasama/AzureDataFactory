@@ -24,6 +24,7 @@
           template: ./azuredeploy.json
           parameters: storageAccountType=Standard_LRS
           
+          
        
       
       
