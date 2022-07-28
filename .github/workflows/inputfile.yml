@@ -30,6 +30,10 @@ on:
         required: false
         default: 'false'
         type: string
+        
+jobs:
+ Inputs:
+   runs-on: ubuntu-latest
     
   
 
