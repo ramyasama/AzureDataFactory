@@ -1,0 +1,26 @@
+name: data-factory-deploy
+description: Deploy Azure Data Factory resources
+
+inputs:
+  resourceGroupName:
+    description: 'Data Factory resource group name'
+    required: true
+  dataFactoryName:
+    description: 'Data factory name'
+    required: true
+  armTemplateFile:
+    description: 'ARM template file name'
+    required: false
+    default: 'ARMTemplateForFactory.json'
+  armTemplateParametersFile:
+    description: 'ARM template parameters file name'
+    required: false
+    default: 'ARMTemplateParametersForFactory.json'
+  additionalParameters:
+    description: 'Parameters which will be replaced in the ARM template'
+    required: false
+    default: ''
+  skipAzModuleInstallation:
+    description: 'Parameters which skip the Az module installation'
+    required: false
+    default: 'false'
