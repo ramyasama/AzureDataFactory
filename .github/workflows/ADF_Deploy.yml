@@ -2,10 +2,10 @@ name: Deploy ADF
 on:
   workflow_dispatch:
 jobs:
-  runs-on: ubuntu-latest
   uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
   job1:
     - name: Run Pre-deployment script
+      runs-on: ubuntu-latest
       run: |
         ${{ github.action_path }}/PrePostDeploymentScript.ps1 
           -armTemplate "${{ inputs.armTemplateFile }}" 
@@ -21,7 +21,7 @@ jobs:
         resourceGroupName: ${{ inputs.resourceGroupName }}
         template: ${{ inputs.armTemplateFile }}
         parameters: ${{ inputs.armTemplateParametersFile }} factoryName=${{ inputs.dataFactoryName }} ${{ inputs.additionalParameters }}
-   job3:
+  job3:
      - name: Run Post-deployment script
        run: |
          ${{ github.action_path }}/PrePostDeploymentScript.ps1 
