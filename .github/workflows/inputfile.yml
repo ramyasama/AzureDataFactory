@@ -12,14 +12,12 @@ on:
         type: string
       armTemplateFile:
         description: 'ARM template file name'
-        required: false
+        required: true
         type: string
-        default: 'ARMTemplateForFactory.json'
       armTemplateParametersFile:
        description: 'ARM template parameters file name'
-       required: false
+       required: true
        type: string
-       default: 'ARMTemplateParametersForFactory.json'
       additionalParameters:
        description: 'Parameters which will be replaced in the ARM template'
        required: false
