@@ -1,4 +1,4 @@
-name: Deploy Azure Data Factory Resources
+name: Deploy ADF
 on:
   workflow_dispatch:
 jobs:
