@@ -1,0 +1,9 @@
+{
+	"name": "factory12data",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c67b4146-2d15-444c-b3a6-90a9ede4a1d0",
+		"tenantId": "d852d5cd-724c-4128-8812-ffa5db3f8507"
+	}
+}
