@@ -34,6 +34,8 @@ on:
 jobs:
  Inputs:
    runs-on: ubuntu-latest
+   steps:
+     - run: echo "Inputs"
     
   
 
