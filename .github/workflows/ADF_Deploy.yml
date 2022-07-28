@@ -5,7 +5,7 @@ jobs:
   job:
     uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
     with:
-      resourceGroupName: " "
+      resourceGroupName: "samaramya"
       dataFactoryName: "factory12data"
       armTemplateFile: "ARMTemplateForFactory.json"
       armTemplateParametersFile: "ARMTemplateParametersForFactory.json"
