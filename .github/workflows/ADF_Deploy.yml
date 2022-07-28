@@ -2,32 +2,32 @@ name: Deploy ADF
 on:
   workflow_dispatch:
 jobs:
-  uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
+  job:
+    uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
+    with:
+      resourceGroupName: " "
+      dataFactoryName: "factory12data"
+      armTemplateFile: "ARMTemplateForFactory.json"
+      armTemplateParametersFile: "ARMTemplateParametersForFactory.json"
   job1:
-    - name: Run Pre-deployment script
       runs-on: ubuntu-latest
-      run: |
-        ${{ github.action_path }}/PrePostDeploymentScript.ps1 
-          -armTemplate "${{ inputs.armTemplateFile }}" 
-          -ResourceGroupName "${{ inputs.resourceGroupName }}" 
-          -DataFactoryName "${{ inputs.dataFactoryName }}" 
-          -predeployment $true 
-          -deleteDeployment $false
-      shell: pwsh
-  job2:
-    - name: Run ARM deploy
-      uses: azure/arm-deploy@v1
-      with:
-        resourceGroupName: ${{ inputs.resourceGroupName }}
-        template: ${{ inputs.armTemplateFile }}
-        parameters: ${{ inputs.armTemplateParametersFile }} factoryName=${{ inputs.dataFactoryName }} ${{ inputs.additionalParameters }}
-  job3:
-     - name: Run Post-deployment script
-       run: |
-         ${{ github.action_path }}/PrePostDeploymentScript.ps1 
-          -armTemplate "${{ inputs.armTemplateFile }}" 
-          -ResourceGroupName "${{ inputs.resourceGroupName }}" 
-          -DataFactoryName '${{ inputs.dataFactoryName }}' 
-          -predeployment $false 
-          -deleteDeployment $true
-       shell: pwsh
+      steps:
+        - name: Run Pre-deployment script
+          shell: pwsh
+          run: |
+            invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
+             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.inputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.inputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.inputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
+           
+        - name: Run ARM deploy
+          uses: azure/arm-deploy@v1
+          with:
+            resourceGroupName: ${{ inputs.resourceGroupName }}
+            template: ${{ inputs.armTemplateFile }}
+            parameters: ${{ inputs.armTemplateParametersFile }} factoryName=${{ inputs.dataFactoryName }} ${{ inputs.additionalParameters }}
+  
+        - name: Run Post-deployment script
+          shell: pwsh
+          run: |
+             invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
+             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.inputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.inputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.inputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
+      
