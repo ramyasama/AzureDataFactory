@@ -1,30 +1,22 @@
 name: InputFile
 on:
   workflow_call:
-    inputs:
+    outputs:
       resourceGroupName:
-        description: 'Data Factory resource group name'
-        required: true
-        type: string
+        value: "ResourceFCA"
       dataFactoryName:
-        description: 'Data factory name'
-        required: true
-        type: string
+        value: "DataFactoryFCA"
       armTemplateFile:
-        description: 'ARM template file name'
-        required: true
-        type: string
+        value: "ARMTemplateForFactory.json"
       armTemplateParametersFile:
-       description: 'ARM template parameters file name'
-       required: true
-       type: string
+        value: "ARMTemplateParametersForFactory.json"
       
         
 jobs:
- Inputs:
+ Check:
    runs-on: ubuntu-latest
    steps:
-     - run: echo "Inputs"
+     - run: echo "Outputs"
     
   
 
