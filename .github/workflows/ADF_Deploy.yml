@@ -16,7 +16,7 @@ jobs:
           shell: pwsh
           run: |
             invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
-             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.inputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.inputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.inputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
+             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.armTemplateFile }}" -ResourceGroupName "${{ needs.job.resourceGroupName }}" -DataFactoryName '${{ needs.job.dataFactoryName }}' -predeployment $false -deleteDeployment $true
            
         - name: Run ARM deploy
           uses: azure/arm-deploy@v1
