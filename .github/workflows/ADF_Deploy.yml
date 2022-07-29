@@ -16,7 +16,7 @@ jobs:
         - name: Run ARM deploy
           uses: azure/arm-deploy@v1
           with:
-            resourceGroupName: ${{ .resourceGroupName }}
+            resourceGroupName: ${{ needs.job.outputs.resourceGroupName }}
             template: ${{ needs.job.outputs.armTemplateFile }}
             parameters: ${{ needs.job.outputs.armTemplateParametersFile }} factoryName=${{ needs.job.outputs.dataFactoryName }} ${{ needs.job.outputs.additionalParameters }}
   
