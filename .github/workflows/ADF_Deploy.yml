@@ -4,11 +4,6 @@ on:
 jobs:
   job:
     uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
-    with:
-      resourceGroupName: "ResourceFCA"
-      dataFactoryName: "DataFactoryFCA"
-      armTemplateFile: "ARMTemplateForFactory.json"
-      armTemplateParametersFile: "ARMTemplateParametersForFactory.json"
   job1:
       runs-on: ubuntu-latest
       steps:
@@ -16,20 +11,20 @@ jobs:
           shell: pwsh
           run: |
             invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
-             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.armTemplateFile }}" -ResourceGroupName "${{ needs.job.resourceGroupName }}" -DataFactoryName '${{ needs.job.dataFactoryName }}' -predeployment $false -deleteDeployment $true
+             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.outputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.outputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
            
         - name: Run ARM deploy
           uses: azure/arm-deploy@v1
           with:
-            resourceGroupName: ${{ inputs.resourceGroupName }}
-            template: ${{ inputs.armTemplateFile }}
-            parameters: ${{ inputs.armTemplateParametersFile }} factoryName=${{ inputs.dataFactoryName }} ${{ inputs.additionalParameters }}
+            resourceGroupName: ${{ .resourceGroupName }}
+            template: ${{ needs.job.outputs.armTemplateFile }}
+            parameters: ${{ needs.job.outputs.armTemplateParametersFile }} factoryName=${{ needs.job.outputs.dataFactoryName }} ${{ needs.job.outputs.additionalParameters }}
   
         - name: Run Post-deployment script
           shell: pwsh
           run: |
              invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
-             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.inputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.inputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.inputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
+             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.outputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.outputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
              
              
       
