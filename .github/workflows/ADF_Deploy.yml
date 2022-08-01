@@ -7,24 +7,50 @@ jobs:
   job1:
       runs-on: ubuntu-latest
       steps:
-        - name: Run Pre-deployment script
+        - name: Stop Active Triggers
           shell: pwsh
           run: |
-            invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
-             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.outputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.outputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
-           
-        - name: Run ARM deploy
+            Stop-AzDataFactoryV2Trigger - ResourceGroupName "${{ needs.job.outputs.ResourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -TriggerName " " 
+            
+        - name: ARM Template deploy
           uses: azure/arm-deploy@v1
           with:
             resourceGroupName: ${{ needs.job.outputs.resourceGroupName }}
             template: ${{ needs.job.outputs.armTemplateFile }}
-            parameters: ${{ needs.job.outputs.armTemplateParametersFile }} factoryName=${{ needs.job.outputs.dataFactoryName }} ${{ needs.job.outputs.additionalParameters }}
+            parameters: ${{ needs.job.outputs.armTemplateParametersFile }} 
+            factoryName: ${{ needs.job.outputs.dataFactoryName }} 
   
-        - name: Run Post-deployment script
+        - name: Resource Cleanup(pipeline)
           shell: pwsh
           run: |
-             invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/PrePostDeploymentScript.ps1" -OutFile "PrePostDeploymentScript.ps1"
-             ./PrePostDeploymentScript.ps1 -armTemplate "${{ needs.job.outputs.armTemplateFile }}" -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName '${{ needs.job.outputs.dataFactoryName }}' -predeployment $false -deleteDeployment $true
+             Get-AzDataFactoryPipeline -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -PipelineName ""
+             Remove-AzDataFactoryV2Pipeline -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -PipelineName ""
+             
+        - name: Resource Cleanup(DataFlows)
+          shell: pwsh
+          run: |
+             Get-AzDataFactoryV2DataFlow -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
+             Remove-AzDataFactoryV2DataFlow -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
+             
+        - name: Resource Cleanup(Datasets)
+          shell: pwsh
+          run: |
+             Get-AzDataFactoryV2Dataset -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -Dataset ""
+             Remove-AzDataFactoryV2Dataset -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -Dataset ""
+             
+        - name: Resource Cleanup(Linked Services)
+          shell: pwsh
+          run: |
+             Get-AzDataFactoryLinkedService -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
+             Remove-AzDataFactoryV2LinkedService -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
+             
+        - name: Restart Active Triggers
+          shell: pwsh
+          run: |
+            Start-AzDataFactoryV2Trigger - ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -TriggerName " " 
+             
+         
              
              
-      
+             
+             
