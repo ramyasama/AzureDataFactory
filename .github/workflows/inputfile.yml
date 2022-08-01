@@ -7,9 +7,9 @@ on:
       dataFactoryName:
         value: "DataFactoryFCA"
       armTemplateFile:
-        value: "ARMTemplateForFactory.json"
+        value: " "
       armTemplateParametersFile:
-        value: "ARMTemplateParametersForFactory.json"
+        value: " "
       
         
 jobs:
