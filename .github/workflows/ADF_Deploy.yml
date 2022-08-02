@@ -13,8 +13,10 @@ jobs:
          with:
            creds: ${{ secrets.AZURE_CREDENTIALS }}
    calling-workflow:
+     needs: Azure-Login 
      uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
    Pre-deployment:
+     needs: calling-workflow
      runs-on: ubuntu-latest
      steps:
         - name: Stop Active Triggers
@@ -22,6 +24,7 @@ jobs:
           run: |
             Stop-AzDataFactoryV2Trigger - ResourceGroupName "${{ needs.calling-workflow.outputs.ResourceGroupName }}" -DataFactoryName "${{ needs.calling-workflow.outputs.dataFactoryName }}" -TriggerName " " 
    ARM-Template-deployment:
+     needs: Pre-deployment 
      runs-on: ubuntu-latest
      steps:
       - uses: azure/arm-deploy@v1
@@ -31,6 +34,7 @@ jobs:
           parameters: ${{ needs.calling-workflow.outputs.armTemplateParametersFile }} 
           factoryName: ${{ needs.calling-workflow.outputs.dataFactoryName }} 
    Resource-Cleanup:
+      needs: ARM-Template-deployment
       runs-on: ubuntu-latest
       steps:
         - name: pipeline
@@ -57,6 +61,7 @@ jobs:
              Get-AzDataFactoryLinkedService -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
              Remove-AzDataFactoryV2LinkedService -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
    Post-Deployment:
+     needs: Resource-Cleanup
      runs-on: ubuntu-latest
      steps:
        - name: Restart Active Triggers
