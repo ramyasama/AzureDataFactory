@@ -2,6 +2,16 @@ name: Deploy ADF
 on:
   workflow_dispatch:
 jobs:
+   build:
+      runs-on: ubuntu-latest
+      steps:
+      # Checkout code
+      - uses: actions/checkout@main
+        
+      # Log into Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
   job:
     uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
   job1:
