@@ -9,7 +9,7 @@ on:
       armTemplateFile:
         value: " "
       armTemplateParametersFile:
-        value: " "
+        value: "./azuredeploy.json"
       
         
 jobs:
