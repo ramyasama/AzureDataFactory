@@ -27,7 +27,7 @@ jobs:
      needs: Pre-deployment 
      runs-on: ubuntu-latest
      steps:
-      - uses: azure/arm-deploy@v1
+      - uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
           template: ${{ needs.calling-workflow.outputs.armTemplateFile }}
