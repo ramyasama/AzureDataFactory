@@ -2,14 +2,18 @@ name: InputFile
 on:
   workflow_call:
     outputs:
-      resourceGroupName:
-        value: "ResourceFCA"
       dataFactoryName:
-        value: "DataFactoryFCA"
+        value: " "
+      resourceGroupName:
+        value: " "
+      location:
+        value: " "
+      subscription:
+        value: " "
       armTemplateFile:
         value: " "
       armTemplateParametersFile:
-        value: "./azuredeploy.json"
+        value: " "
       
         
 jobs:
