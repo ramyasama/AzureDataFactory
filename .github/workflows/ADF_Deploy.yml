@@ -15,16 +15,9 @@ jobs:
    calling-workflow:
      needs: Azure-Login 
      uses: SamaRamya/AzureDataFactory/.github/workflows/inputfile.yml@main
-   Pre-deployment:
-     needs: calling-workflow
-     runs-on: ubuntu-latest
-     steps:
-        - name: Stop Active Triggers
-          shell: pwsh
-          run: |
-            Stop-AzDataFactoryV2Trigger - ResourceGroupName "${{ needs.calling-workflow.outputs.ResourceGroupName }}" -DataFactoryName "${{ needs.calling-workflow.outputs.dataFactoryName }}" -TriggerName " " 
+   
    ARM-Template-deployment:
-     needs: Pre-deployment 
+     needs: calling-workflow 
      runs-on: ubuntu-latest
      steps:
       - uses: Azure/data-factory-deploy-action@v1.2.0
@@ -33,44 +26,5 @@ jobs:
           template: ${{ needs.calling-workflow.outputs.armTemplateFile }}
           parameters: ${{ needs.calling-workflow.outputs.armTemplateParametersFile }} 
           factoryName: ${{ needs.calling-workflow.outputs.dataFactoryName }} 
-   Resource-Cleanup:
-      needs: ARM-Template-deployment
-      runs-on: ubuntu-latest
-      steps:
-        - name: pipeline
-          shell: pwsh
-          run: |
-             Get-AzDataFactoryPipeline -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -PipelineName ""
-             Remove-AzDataFactoryV2Pipeline -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -PipelineName ""
-             
-        - name: DataFlows
-          shell: pwsh
-          run: |
-             Get-AzDataFactoryV2DataFlow -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
-             Remove-AzDataFactoryV2DataFlow -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
-             
-        - name: Datasets
-          shell: pwsh
-          run: |
-             Get-AzDataFactoryV2Dataset -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -Dataset ""
-             Remove-AzDataFactoryV2Dataset -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -Dataset ""
-             
-        - name: Linked Services
-          shell: pwsh
-          run: |
-             Get-AzDataFactoryLinkedService -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
-             Remove-AzDataFactoryV2LinkedService -ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -DataFlowName ""
-   Post-Deployment:
-     needs: Resource-Cleanup
-     runs-on: ubuntu-latest
-     steps:
-       - name: Restart Active Triggers
-         shell: pwsh
-         run: |
-            Start-AzDataFactoryV2Trigger - ResourceGroupName "${{ needs.job.outputs.resourceGroupName }}" -DataFactoryName "${{ needs.job.outputs.dataFactoryName }}" -TriggerName " " 
-             
-         
-             
-             
-             
+  
              
