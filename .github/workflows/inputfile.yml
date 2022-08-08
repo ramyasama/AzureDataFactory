@@ -10,6 +10,8 @@ on:
         value: "South India"
       subscription:
         value: "Free Trial "
+      subscriptionid:
+        value: "dde29bb3-784c-4f98-975a-08a924e93ccc"
       armTemplateFile:
         value: "./arm_template.json"
       armTemplateParametersFile:
