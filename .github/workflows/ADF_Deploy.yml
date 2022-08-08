@@ -29,8 +29,6 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
-          template: ${{ needs.calling-workflow.outputs.armTemplateFile }}
-          parameters: factoryName=factory12data
         
   
              
