@@ -25,7 +25,7 @@ jobs:
         run: |
          invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/arm_template.json" -OutFile "arm_template.json"
          invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/arm_template_parameters.json" -OutFile "arm_template_parameters.json"
-      - uses: Azure/data-factory-deploy-action@v1.2.0
+      - uses: azure/arm-deploy@v1
         with:
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
           armTemplateFile: ${{ needs.calling-workflow.outputs.armTemplateFile }}
