@@ -3,15 +3,15 @@ on:
   workflow_call:
     outputs:
       dataFactoryName:
-        value: "factory12data"
+        value: "dev-instanceadf"
       resourceGroupName:
-        value: "DataFactoryResource"
+        value: "dev-resource"
       location:
-        value: "South India"
+        value: "East US"
       subscription:
         value: "Free Trial "
       subscriptionid:
-        value: "dde29bb3-784c-4f98-975a-08a924e93ccc"
+        value: "4738a482-f10c-47d9-a927-d1efb8c84396"
       armTemplateFile:
         value: "./arm_template.json"
       armTemplateParametersFile:
