@@ -27,9 +27,10 @@ jobs:
          invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/arm_template_parameters.json" -OutFile "arm_template_parameters.json"
       - uses: azure/arm-deploy@v1
         with:
+          subscriptionId: ${{ needs.calling-workflow.outputs.subscriptionid }}
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
-          armTemplateFile: ${{ needs.calling-workflow.outputs.armTemplateFile }}
-          armTemplateParametersFile: ${{ needs.calling-workflow.outputs.armTemplateParametersFile }} 
-          dataFactoryName: ${{ needs.calling-workflow.outputs.dataFactoryName }} 
+          template: ${{ needs.calling-workflow.outputs.armTemplateFile }}
+          parameters: factoryName=factory12data
+        
   
              
