@@ -3,17 +3,17 @@ on:
   workflow_call:
     outputs:
       dataFactoryName:
-        value: " "
+        value: "factory12data"
       resourceGroupName:
-        value: " "
+        value: "DataFactoryResource"
       location:
-        value: " "
+        value: "South India"
       subscription:
-        value: " "
+        value: "Free Trial "
       armTemplateFile:
-        value: " "
+        value: "./arm_template.json"
       armTemplateParametersFile:
-        value: " "
+        value: "./arm_template_parameters.json"
       
         
 jobs:
