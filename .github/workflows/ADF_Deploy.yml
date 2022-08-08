@@ -23,8 +23,8 @@ jobs:
       - uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
-          template: ${{ needs.calling-workflow.outputs.armTemplateFile }}
-          parameters: ${{ needs.calling-workflow.outputs.armTemplateParametersFile }} 
-          factoryName: ${{ needs.calling-workflow.outputs.dataFactoryName }} 
+          armTemplateFile: ${{ needs.calling-workflow.outputs.armTemplateFile }}
+          armTemplateParametersFile: ${{ needs.calling-workflow.outputs.armTemplateParametersFile }} 
+          dataFactoryName: ${{ needs.calling-workflow.outputs.dataFactoryName }} 
   
              
