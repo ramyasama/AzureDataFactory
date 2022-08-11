@@ -20,15 +20,12 @@ jobs:
      needs: calling-workflow 
      runs-on: ubuntu-latest
      steps:
-      - name: download files
-        shell: pwsh
-        run: |
-         invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/arm_template.json" -OutFile "arm_template.json"
-         invoke-webrequest -Uri "https://raw.githubusercontent.com/SamaRamya/AzureDataFactory/main/.github/workflows/arm_template_parameters.json" -OutFile "arm_template_parameters.json"
       - uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
+          template: ${{ needs.calling-workflow.outputs.resourceGroupName }}
+          deploymentMode: Incremental
+          parameters: factoryName=adfv2-cicd-target
         
   
              
