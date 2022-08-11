@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "df-11912-d-001"
+        },
+        "ls_az_sql_db_cdp_connectionString": {
+            "value": ""
+        },
+        "ls_sftp_cdp_password": {
+            "value": ""
+        },
+        "ls_az_adls_cdp_connectionString": {
+            "value": ""
+        },
+        "ls_az_kv_cdp_properties_typeProperties_baseUrl": {
+            "value": "https://kv-11912-d-001.vault.azure.net/"
+        },
+        "ls_sftp_cdp_properties_typeProperties_host": {
+            "value": "crow.extra.chrysler.com"
+        },
+        "ls_sftp_cdp_properties_typeProperties_userName": {
+            "value": "sf5155t2"
+        },
+        "trigger_daily_properties_typeProperties_scope": {
+            "value": "/subscriptions/e911357a-6718-48a7-819b-0648f0efaff2/resourceGroups/rg-11912-d-001/providers/Microsoft.Storage/storageAccounts/st11912d001"
+        }
+    }
+}
