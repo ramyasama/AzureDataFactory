@@ -3,9 +3,9 @@ on:
   workflow_call:
     outputs:
       dataFactoryName:
-        value: "dev-instanceadf"
+        value: "df-11912-d-001"
       resourceGroupName:
-        value: "dev-resource"
+        value: "rg-11912-d-001"
       location:
         value: "East US"
       subscription:
@@ -13,9 +13,9 @@ on:
       subscriptionid:
         value: "4738a482-f10c-47d9-a927-d1efb8c84396"
       armTemplateFile:
-        value: "./arm_template.json"
+        value: ""
       armTemplateParametersFile:
-        value: "./arm_template_parameters.json"
+        value: ""
       
         
 jobs:
