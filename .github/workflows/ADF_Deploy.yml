@@ -23,7 +23,7 @@ jobs:
       - uses: azure/arm-deploy@v1
         with:
           resourceGroupName: ${{ needs.calling-workflow.outputs.resourceGroupName }}
-          template: ${{ needs.calling-workflow.outputs.resourceGroupName }}
+          template: ${{ needs.calling-workflow.outputs.armTemplateFile }}
           deploymentMode: Incremental
           parameters: factoryName=adfv2-cicd-target
         
